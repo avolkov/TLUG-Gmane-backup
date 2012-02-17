@@ -1,0 +1,2 @@
+feedparser==5.1
+requests==0.10.2

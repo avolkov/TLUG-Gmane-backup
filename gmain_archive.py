@@ -1,11 +1,16 @@
 #!/usr/bin/env python
 
+'''
+Inefficiently fetch full copy of gtalug mailing list without hitting
+PHP execution 30 second limit on the server
+'''
+
 import requests
 from time import time, sleep
 import codecs
 import StringIO
 maxget = 57370
-current = 15000
+current = 0
 orig_step = 2000
 
 target = codecs.open('tlug_data.txt', 'a', 'utf-8')
