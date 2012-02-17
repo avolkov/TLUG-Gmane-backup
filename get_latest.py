@@ -43,6 +43,9 @@ latest_local = get_latest_local_id(latest_id_file)
 if latest_remote > latest_local:
     print  latest_local, latest_remote
     append =  download_archive(archive_base_url, latest_local, latest_remote+1, step)
+    if not append:
+        print "error downloading archive"
+        sys.exit(2)
     f_append = codecs.open(datafile, 'a','utf-8')
     f_append.write(append)
     f_append.close()
