@@ -7,7 +7,6 @@ Get latest updats to gta mailing list
 import feedparser
 import requests
 import codecs
-import StringIO
 import sys
 
 def get_latest_remote_id(rss_url):
@@ -18,14 +17,14 @@ def get_latest_local_id(fname):
 
 def download_archive(url, start, stop, step):
     current = start
-    buff = StringIO.StringIO()
+    buff = u''
     while True:
         dl_url = "%s/%d/%d" % (url, current, stop if current + step > stop else current + step)
         out = requests.get(dl_url)
         if out.ok:
-            buff.write(out.text)
+            buff += unicode(out.text)
             if current == stop:
-                return buff.getvalue()
+                return buff
             else:
                 current = stop if current + step > stop else current + step
         else:
@@ -42,7 +41,7 @@ latest_local = get_latest_local_id(latest_id_file)
 
 if latest_remote > latest_local:
     print  latest_local, latest_remote
-    append =  download_archive(archive_base_url, latest_local, latest_remote+1, step)
+    append =  download_archive(archive_base_url, latest_local+1, latest_remote+1, step)
     if not append:
         print "error downloading archive"
         sys.exit(2)
